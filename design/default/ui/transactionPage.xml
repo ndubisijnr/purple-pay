@@ -7,16 +7,14 @@
   </view>
   <list_view v-if="{isTransactions}" name="list_view1" x="0" y="50" w="320" h="160" default_item_height="60" style:normal:bg_color="#FFFFFF">
     <scroll_view v-if="{!approvePag}" name="scroll_view" x="0" y="0" w="-10" h="100%">
-      <list_item v-for="{transactions}" name="list_item" h="64" v-on:click="{getTrans,Args=fscript?amount=item.trnAmount&amp;&amp;date=item.trnCreatedAt&amp;&amp;creditAccountName=item.trnCrAccountName&amp;&amp;creditAccount=item.trnCrAccountNumber&amp;&amp;debitAccountName=item.trnDrAccountName&amp;&amp;debitAccountNumber=item.trnDrAccountNumber&amp;&amp;bankName=item.trnCrInstitutionName&amp;&amp;reference=item.trnReference&amp;&amp;narration=item.trnNarration&amp;&amp;responseCode=item.trnResponseCode&amp;&amp;status=item.trnStatus&amp;&amp;drCr=item.trnDrCr&amp;&amp;type=item.trnDrCr&amp;&amp;name=item.trnExtraData.name&amp;&amp;card=item.trnExtraData.card&amp;&amp;rrn=item.trnExtraData.rrn&amp;&amp;stan=item.trnExtraData.stan&amp;&amp;appLab=item.trnExtraData.appLab&amp;&amp;mid=item.trnExtraData.mid&amp;&amp;aid=item.trnExtraData.aid&amp;&amp;tid=item.trnExtraData.tid&amp;&amp;trnService=item.trnService&amp;&amp;responseMessage=item.trnResponseMessage&amp;&amp;responseMessage=item.trnResponseMessage&amp;}" style:pressed:bg_color="#ACB8C9" style:over:bg_color="#ACB8C9" style:normal:text_align_h="center" style:focused:bg_color="#ACB8C9">
+      <list_item v-for="{transactions}" name="list_item" h="64" v-on:click="{getTrans,Args=fscript?amount=item.transactionResponseAmount&amp;&amp;date=item.transactionResponseTime&amp;&amp;transactionToAccountType=item.transactionToAccountType&amp;&amp;transactionToAccountIdentification=item.transactionToAccountIdentification&amp;&amp;transactionOrganisationName=item.transactionOrganisationName&amp;&amp;transactionFromAccountIdentification=item.transactionFromAccountIdentification&amp;&amp;bankName=item.trnCrInstitutionName&amp;&amp;transactionRetrievalReferenceNumber=item.transactionRetrievalReferenceNumber&amp;&amp;narration=item.journalNarration&amp;&amp;responseCode=item.transactionResponseCode&amp;&amp;status=item.transactionStatus&amp;&amp;drCr=item.trnDrCr&amp;&amp;type=item.trnDrCr&amp;&amp;name=item.transactionCardHolderName&amp;&amp;card=item.transactionMaskedPan&amp;&amp;rrn=item.transactionRetrievalReferenceNumber&amp;&amp;stan=item.transactionStan&amp;&amp;appLab=item.transactionAppLabel&amp;&amp;mid=item.trnExtraData.mid&amp;&amp;aid=item.transactionAcquiringInstitutionIdentifier&amp;&amp;tid=item.trnExtraData.tid&amp;&amp;trnService=item.trnService&amp;&amp;responseMessage=item.transactionResponseMessage&amp;&amp;responseMessage=item.transactionResponseMessage&amp;}" style:pressed:bg_color="#ACB8C9" style:over:bg_color="#ACB8C9" style:normal:text_align_h="center" style:focused:bg_color="#ACB8C9">
         <view name="view" h="63" style:normal:bg_color="#FFFFFF" w="320" x="0" y="1">
-          <label v-if="{item.trnStatus == PENDING}" name="status1" h="20" x="263" y="41" w="39" style:normal:text_color="#FFC000" style:normal:font_size="14" text="PENDING"/>
-          <label v-if="{item.trnStatus == FAILED}" name="status2" h="20" x="258" y="41" w="49" style:normal:text_color="#C00000" style:normal:font_size="14" text="DECLINED"/>
-          <label v-if="{item.trnStatus == ACTIVE || item.trnStatus == SUCCESS}" name="status" h="20" x="258" y="41" w="52" style:normal:text_color="#375622" style:normal:font_size="14" text="APPROVED"/>
-          <label v-if="{item.trnDrCr == DR}" name="debit" h="28" v-data:text="{item.trnAmount}" x="258" y="10" w="52" style:normal:text_color="#FF0000" style:normal:font_size="18" style:normal:text_align_h="right"/>
-          <label v-if="{item.trnDrCr == CR}" name="credit" h="28" x="258" y="10" w="52" v-data:text="{item.trnAmount}" style:normal:text_color="#37563D" style:normal:font_size="18" style:normal:text_align_h="right"/>
-          <label name="trans_narration" h="20" x="10" y="34" w="80" style:normal:text_align_h="left" v-data:text="{item.trnCreatedAt}" style:normal:font_size="12"/>
-          <label v-if="{item.trnService == 'FUND_TRANSFER_INTER_BANK'}" name="trans_narration1" h="20" x="10" y="10" w="164" style:normal:text_align_h="left" v-data:text="{item.trnCrAccountName}" style:normal:font_size="13"/>
-          <label v-if="{item.trnService == 'CARD_COLLECTION'}" name="trans_narration1" h="20" x="10" y="10" w="164" style:normal:text_align_h="left" v-data:text="{item.trnExtraData.name}" style:normal:font_size="13"/>
+          <label v-if="{item.transactionStatus == PENDING}" name="status1" h="20" x="263" y="41" w="39" style:normal:text_color="#FFC000" style:normal:font_size="14" text="PENDING"/>
+          <label v-if="{item.transactionStatus == FAILED}" name="status2" h="20" x="258" y="41" w="49" style:normal:text_color="#C00000" style:normal:font_size="14" text="DECLINED"/>
+          <label v-if="{item.transactionStatus == ACTIVE || item.transactionStatus == SUCCESS}" name="status" h="20" x="258" y="41" w="52" style:normal:text_color="#375622" style:normal:font_size="14" text="APPROVED"/>
+          <label name="credit" h="28" x="258" y="10" w="52" v-data:text="{item.transactionRequestAmount}" style:normal:text_color="#37563D" style:normal:font_size="18" style:normal:text_align_h="right"/>
+          <label name="trans_narration" h="20" x="10" y="34" w="80" style:normal:text_align_h="left" v-data:text="{item.transactionCreatedAt}" style:normal:font_size="12"/>
+          <label name="trans_narration1" h="20" x="10" y="10" w="164" style:normal:text_align_h="left" v-data:text="{item.transactionCardHolderName}" style:normal:font_size="13"/>
         </view>
       </list_item>
       <view name="view3" h="42" style:normal:bg_color="#FFFFFF">
@@ -135,15 +133,15 @@
   <list_view v-if="{isShowingReceipt}" name="list_view" x="0" y="0" w="320" h="210" default_item_height="60" style:normal:bg_color="#FFFFFF" disg:hide="true">
     <label name="label5" x="10" y="3" w="300" h="28" style:normal:font_size="18" text="Transaction Receipt"/>
     <scroll_view name="scroll_view1" x="0" y="28" w="320" h="172">
-      <view v-if="{trans.trnService == CARD_COLLECTION}" name="transaction_summary_card" h="372" style:normal:bg_color="#FFFFFF" style:normal:round_radius="5">
-        <view v-if="{trans.drCr == CR}" w="320" h="35">
+      <view v-if="{trans.transactionMaskedPan}" name="transaction_summary_card" h="372" style:normal:bg_color="#FFFFFF" style:normal:round_radius="5">
+        <view w="320" h="35">
           <label name="tansaction_amount4" x="85" y="0" w="42" h="25" style:normal:font_size="24" style:normal:text_color="#00B050" text="credit"/>
           <label name="tansaction_amount5" x="180" y="1" w="65" h="25" style:normal:font_size="24" v-data:text="{amount}" style:normal:text_color="#00B050"/>
         </view>
-        <view v-if="{trans.drCr == DR}" w="320" h="25">
+        <!-- <view  w="320" h="25">
           <label name="tansaction_amount6" x="85" y="0" w="42" h="25" style:normal:font_size="24" style:normal:text_color="#C00000" text="debit"/>
           <label name="tansaction_amount7" x="180" y="1" w="69" h="25" style:normal:font_size="24" v-data:text="{amount}" style:normal:text_color="#C00000"/>
-        </view>
+        </view> -->
         <view name="view11" x="0" y="26" w="320" h="24" style:normal:border_color="#00000000">
           <label name="from7" x="10" y="0" w="81" h="23" style:normal:font_size="14" style:normal:text_align_h="left" text="Date:"/>
           <label name="fromValue7" x="91" y="1" w="219" h="23" v-data:text="{trans.date}" style:normal:text_align_h="right" style:normal:font_size="14"/>
@@ -179,13 +177,13 @@
           <label name="fromValue13" x="0" y="19" w="320" h="25" v-data:text="{trans.reference}" style:normal:text_align_h="center" style:normal:font_size="14"/>
         </view>
       </view>
-      <view v-if="{trans.trnService != CARD_COLLECTION}" name="transaction_summary" h="357" style:normal:bg_color="#FFFFFF" style:normal:round_radius="5">
-        <view v-if="{trans.drCr == CR}" w="320" h="35">
+      <view v-if="{trans.transactionToAccountType}" name="transaction_summary" h="357" style:normal:bg_color="#FFFFFF" style:normal:round_radius="5">
+        <!-- <view v-if="{trans.drCr == CR}" w="320" h="35">
           <label name="tansaction_amount" x="85" y="0" w="42" h="25" style:normal:font_size="24" style:normal:text_color="#00B050" text="credit"/>
           <label name="tansaction_amount1" x="180" y="1" w="69" h="25" style:normal:font_size="24" v-data:text="{amount}" style:normal:text_color="#00B050"/>
-        </view>
-        <view v-if="{trans.drCr == DR}" w="320" h="25">
-          <label name="tansaction_amount2" x="85" y="1" w="42" h="25" style:normal:font_size="24" style:normal:text_color="#C00000" text="debit"/>
+        </view> -->
+        <view w="320" h="25">
+          <!-- <label name="tansaction_amount2" x="85" y="1" w="42" h="25" style:normal:font_size="24" style:normal:text_color="#C00000" text="debit"/> -->
           <label name="tansaction_amount3" x="180" y="1" w="69" h="25" style:normal:font_size="24" v-data:text="{amount}" style:normal:text_color="#C00000"/>
         </view>
         <view name="view9" x="0" y="26" w="320" h="24" style:normal:border_color="#00000000">

@@ -220,7 +220,7 @@ ViewModel("login", {
                 that.isError = true
                 that.notifyPropsChanged();
             }
-            Tos.GLOBAL_API.callApi(Tos.GLOBAL_API.TERMINAL_LOGIN,this.terminalLoginRequest,onSuccess,onError, 1, '')
+            Tos.GLOBAL_API.callApi(Tos.GLOBAL_API.TERMINAL_LOGIN,this.terminalLoginRequest,onSuccess,onError)
         },
 
         showExit: function () {

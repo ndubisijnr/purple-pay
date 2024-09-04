@@ -4,40 +4,40 @@ var getResponse = require("mod_global_response").getResponse;
 
 ViewModel("transactionPage", {
     data: {
-        user:null,
+        user:"",
         loading:false,
-        transactions:null,
+        transactions:"",
         isTransactions:false,
-        error:null,
+        error:"",
         readTransactionRequest:{
-            terminalId: null,
+            terminalId: "",
             page: 1,
-            pageSize: 5,
-            searchParam: null,
-            startDate: null,
-            endDate:null,
+            pageSize: 100,
+            searchParam: "",
+            startDate: "",
+            endDate:"",
         },
-        showTip:null,
+        showTip:"",
         loading2:false,
         filterOn:false,
         customDate:false,
         currentPage:1,
         itemsPerPage:5,
-        totalPage:null,
-        totalPageNum:null,
-        originalData:null,
+        totalPage:"",
+        totalPageNum:"",
+        originalData:"",
         startDate:"2020/01/01",
         endDate:"2020/01/01",
         requestDate:"",
         isShowingReceipt:false,
-        trans:null,
-        responseMessage:null,
-        amount:null,
-        extraData:null,
-        trnTypeColor:null,
-        trnStatus:null,
+        trans:"",
+        responseMessage:"",
+        amount:"",
+        extraData:"",
+        trnTypeColor:"",
+        trnStatus:"",
         approvePag:false,
-        updatePage:null
+        updatePage:""
     },
 
     methods: {
@@ -96,18 +96,15 @@ ViewModel("transactionPage", {
         },
 
         onPrint:function () {
-            let that  = this;
-            that.trans.extraData = that.extraData
             that.trans.responseMessage = this.responseMessage
             timerAdd(function () {
-                PRINT_TICKET('',that.callback,false,that.currPrint,that.trans);
+                PRINT_TICKET('',this.callback,false,this.currPrint,this.trans);
                 return RET_REMOVE;
             }, 100);
         },
 
         printNext: function (count) {
             this.currPrint = count;
-            this.trans.extraData = this.extraData
             this.trans.responseMessage = this.responseMessage
             this.notifyPropsChanged()
             PRINT_TICKET('',this.callback,false,1,this.trans);
@@ -134,17 +131,15 @@ ViewModel("transactionPage", {
                 this.amount = `₦${this.trans.amount}`;
                 this.responseMessage = `${this.trans.status === 'SUCCESS' || this.trans.status === 'ACTIVE' ? 'APPROVED' :  this.trans.status === 'FAILED' ? 'DECLINED' : this.trans.status}| ${getResponse(this.trans.responseCode).responseMessage}`;
                 console.log("amount ============", this.amount);
-                if(this.trans.trnService === 'CARD_COLLECTION'){
-                    this.extraData = {
-                        card:this.trans.card,
-                        name:this.trans.name,
-                        appLab:this.trans.appLab,
-                        stan:this.trans.stan,
-                        rrn:this.trans.rrn,
-                        aid:this.trans.aid,
-                        tid:this.trans.tid,
-                        mid:this.trans.mid
-                    }
+                this.extraData = {
+                    card:this.trans.card,
+                    name:this.trans.name,
+                    appLab:this.trans.appLab,
+                    stan:this.trans.stan,
+                    rrn:this.trans.rrn,
+                    aid:this.trans.aid,
+                    tid:this.trans.tid,
+                    mid:this.trans.mid
                 }
             }
             this.notifyPropsChanged()
@@ -288,7 +283,6 @@ ViewModel("transactionPage", {
             this.customDate = false;
             this.filterOn = false;
             this.currentPage = 1;
-            this.getTodayDate()
             const mid =  this.user.organisation.organisationId
             this.notifyPropsChanged();
             this.readTransactionRequest.terminalId = Tos.GLOBAL_CONFIG.userInfo.terminal.terminalId
@@ -331,7 +325,7 @@ ViewModel("transactionPage", {
 
     onWillMount: function (req) {
         this.user = Tos.GLOBAL_CONFIG.userInfo
-        // this.getTodayDate()
+        this.getTodayDate()
         this.readTransactions()
     },
 

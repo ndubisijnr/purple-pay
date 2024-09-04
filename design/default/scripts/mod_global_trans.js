@@ -199,7 +199,7 @@ function GLOBAL_PREENTRY(){
             {
                 appName: "Balance",
                 icon: "balance",
-                transParam:{appName:"Balance",transType: TRANS_TYPE.REFUND, msgType:"0200",procCode:"000000",serviceCode:"00"},
+                transParam:{appName:"Balance"},
                 entry: ["balance"]
             },
             {
@@ -213,6 +213,12 @@ function GLOBAL_PREENTRY(){
                 icon: "profile",
                 transParam:{appName:"Profile"},
                 entry: ["profile"]
+            },
+            {
+                appName: "Card Balance",
+                icon: "paywithcard",
+                transParam:{appName:"Card Balance"},
+                entry: ["cardBalance"]
             },
 
         ];

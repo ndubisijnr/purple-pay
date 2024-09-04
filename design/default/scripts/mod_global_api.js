@@ -21,29 +21,32 @@ function GLOBAL_API() {
     this.callApi = function (url,request,onSuccess, onError) {
         this.globalChooseNetworks();
         let mid = Tos.GLOBAL_CONFIG.userInfo.organisation ? Tos.GLOBAL_CONFIG.userInfo.organisation.organisationId : ""
-
-        if(this.globalChooseNetworks()){
-            let head = {
-                params:`Authorization:${Tos.GLOBAL_CONFIG.userInfo.token}\r\nmid:${mid}\r\nAccept:*/*\r\n`,
-                method: 1,
-                ContentType: "application/json"
-            };
-            let requestString = JSON.stringify(request) + "\r\n";
-            console.log("REQUEST:====>", requestString);
-            let that = this
-            this.httpCB = function (ret) {
-                console.log('ret ====>', JSON.stringify(ret));
-                let data = ret.data && ret.data.response_buf || [];
-                if(ret.code < 0) that.parseData(data,onSuccess,onError);
-                else that.parseData(data,onSuccess,onError);
-            };
-            let httpret = Tos.HttpclientCommon(head, url, requestString, "","", 30, 1, that.httpCB);
-            console.log('httpret:====>', JSON.stringify(httpret));
-        }
-        else{
-            onError('network Error')
-            console.log('network Error')
-        }
+        try{
+            if(this.globalChooseNetworks()){
+                let head = {
+                    params:`Authorization:${Tos.GLOBAL_CONFIG.userInfo.token}\r\nmid:${mid}\r\nAccept:*/*\r\n`,
+                    method: 1,
+                    ContentType: "application/json"
+                };
+                let requestString = JSON.stringify(request) + "\r\n";
+                console.log("REQUEST:====>", requestString);
+                let that = this
+                this.httpCB = function (ret) {
+                    console.log('ret ====>', JSON.stringify(ret));
+                    let data = ret.data && ret.data.response_buf || [];
+                    if(ret.code < 0) that.parseData(data,onSuccess,onError);
+                    else that.parseData(data,onSuccess,onError);
+                };
+                let httpret = Tos.HttpclientCommon(head, url, requestString, "","", 30, 1, that.httpCB);
+                console.log('httpret:====>', JSON.stringify(httpret));
+            }
+            else{
+                onError('network Error')
+                console.log('network Error')
+            }
+    }catch(err){
+        console.log('catch', err)
+    }
 
     }
 
@@ -70,33 +73,37 @@ function GLOBAL_API() {
     }
 
     this.parseData = function (data,onSuccess,onError) {
-        let u8arr = new Uint8Array(data);
-        let decodeStr = String.fromCharCode.apply(null, u8arr);
-        if (decodeStr) {
-            let parsedData = JSON.parse(decodeStr);
-            console.log('RESPONSE RT:====>', JSON.stringify(parsedData))
-            
-
-            if(parsedData.responseCode === "00" || parsedData.transactionResponseCode  === "00"){
-                // console.log('returned responseCode =========>', parsedData.responseCode?parsedDatadData.responseCode:parsedData.isoResponseCode)
-                onSuccess(parsedData)
-            }
-            else if (data.responseCode === "115"){
-                Tos.GLOBAL_CONFIG.userInfo = {}
-                navigateTo({
-                    target: "login",
-                    close_current: true,
-                });
+        try{
+            let u8arr = new Uint8Array(data);
+            let decodeStr = String.fromCharCode.apply(null, u8arr);
+            if (decodeStr) {
+                let parsedData = JSON.parse(decodeStr);
+                console.log('RESPONSE RT:====>', JSON.stringify(parsedData))
+                
+                if(parsedData.responseCode === "00" || parsedData.transactionResponseCode  === "00"){
+                    // console.log('returned responseCode =========>', parsedData.responseCode?parsedDatadData.responseCode:parsedData.isoResponseCode)
+                    onSuccess(parsedData)
+                }
+                else if (data.responseCode === "115"){
+                    Tos.GLOBAL_CONFIG.userInfo = {}
+                    navigateTo({
+                        target: "login",
+                        close_current: true,
+                    });
+                }
+                else {
+                    onError(parsedData)
+                    console.log('parsedData', JSON.stringify(parsedData))
+                }
+                
+                
             }
             else {
-                onError(parsedData)
-                console.log('parsedData', JSON.stringify(parsedData))
+                onError('something went wrong. u8arr')
             }
-            
-            
-        }
-        else {
-            onError('something went wrong. u8arr')
+        }catch(err){
+            console.log('catch in parsed', err)
+            onError(err)
         }
     }
 

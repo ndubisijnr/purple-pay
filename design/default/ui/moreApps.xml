@@ -1,11 +1,11 @@
 <window v-model="moreApps" name="moreApps" v-on:key_down:return="{onKeyDown, Args=return}" v-on:key_down:escape="{onKeyDown, Args=escape}" v-on:key_down:delete="{onKeyDown, Args=delete}" v-on:key_down:cancel="{onKeyDown, Args=cancel}">
-  <list_view name="list_view" h="200" default_item_height="104" w="320" x="0" y="0">
+  <list_view name="list_view" h="200" default_item_height="104" w="320" x="0" y="0" disg:hide="true">
     <scroll_view name="scroll_view" x="0" y="0" w="300" h="200" yslidable="true" with_focus_state="true" children_layout="list_view(c=3,xm=10,ym=10,s=10)" floating="false">
       <list_item v-for="{moreList}" focusable="true" with_focus_state="true" name="list_item" h="88" v-data:style:normal:bg_color="{theme.primary_bold}" style:normal:round_radius="6" style:focused:round_radius="6" style:over:round_radius="6" style:pressed:round_radius="6" style:over:bg_color="#8EAAD7" style:pressed:bg_color="#00000000" style:focused:bg_color="#8EAAD7" style:normal:border="all" style:over:border="#none" style:pressed:border="#none" style:focused:border="#none" v-on:key_down:return="{appClick, Args=fscript?name=item.appName&amp;entry=item.entry&amp;transParam=item.transParam" floating="false" style:normal:border_color="#00000000" style:normal:margin_left="2" style:normal:margin_right="2" style:normal:margin_top="2" style:normal:margin_bottom="2">
         <property name="style:normal:margin">
           <![CDATA[2]]>
         </property>
-        <button name="view_child" h="88" v-data:style:normal:bg_color="{theme.primary_bold}" style:over:bg_color="#00000000" style:pressed:bg_color="#00000000" style:focused:bg_color="#00000000" style:normal:border="right" style:over:border="#none" style:pressed:border="#none" style:focused:border="#none" v-on:click="{appClick, Args=fscript?name=item.appName&amp;entry=item.entry&amp;transParam=item.transParam}" w="93" x="0" y="0" style:normal:border_color="#00000000" style:normal:round_radius="6">
+        <button name="view_child" h="88" v-data:style:normal:bg_color="{theme.primary_bold}" style:over:bg_color="#00000000" style:pressed:bg_color="#00000000" style:focused:bg_color="#00000000" style:normal:border="right" style:over:border="#none" style:pressed:border="#none" style:focused:border="#none" v-on:click="{appClick, Args=fscript?name=item.appName&amp;entry=item.entry&amp;transParam=item.transParam}" style:normal:border_color="#00000000" style:normal:round_radius="6" x="0" y="0" w="93">
           <column w="93" h="88" x="0" y="0" style:normal:border_color="#00000000" style:normal:border="none">
             <image name="image" v-data:image="{item.icon}" w="24" h="24" floating="true" x="34" y="20" style:normal:font_size="16" style:normal:border_color="#00000000" style:normal:border="none"/>
             <label w="93" h="16" floating="true" x="0" y="62" v-data:style:normal:text_color="{theme.light}" line_wrap="true" style:normal:font_size="16" v-data:text="{item.appName}" style:normal:border_color="#00000000" style:normal:border="none"/>
@@ -14,4 +14,12 @@
       </list_item>
     </scroll_view>
   </list_view>
+  <!-- <view name="slide_view_view" x="0" y="0" w="320" h="210">
+    <slide_view name="slide_view" x="0" y="0" w="100%" h="-10">
+      <view name="view" x="0" y="0" w="100%" h="100%">
+        
+      </view>
+    </slide_view>
+    <slide_indicator name="slide_indicator" x="0" y="bottom" w="100%" h="10"/>
+  </view> -->
 </window>

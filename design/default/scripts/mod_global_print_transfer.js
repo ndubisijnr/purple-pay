@@ -75,15 +75,15 @@ function PRINT_TICKET(trans,cb,rePrint,currIndex,arg) {
     addTextSpace(`RESPONSE CODE: ${arg.transactionResponseCode === ""?"999":arg.transactionResponseCode}`,ALIGN_LEFT,fontSize.MIDDLE);
     addTextSpace(`MESSAGE: ${arg.transactionResponseCode === "00"?"APPROVED":"DECLINED"} | ${getResponse(arg.transactionResponseCode).responseMessage}`,ALIGN_LEFT,fontSize.MIDDLE);
     addTextSpace(`DATE: ${arg.transactionCreatedAt || arg.transactionCreatedAt}`,ALIGN_LEFT,fontSize.MIDDLE);
-    if(arg.trnService === 'CARD_COLLECTION'){
-        addTextSpace(`TID.: ${arg.extraData.tid}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`MID.: ${arg.extraData.mid}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`CARD.: ${arg.extraData.card}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`Name.: ${arg.extraData.name}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`AID: ${arg.extraData.aid}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`STAN: ${arg.extraData.stan}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`RRN: ${arg.extraData.rrn}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`APPLAB: ${arg.extraData.appLab}`,ALIGN_LEFT,fontSize.MIDDLE);
+    if(arg.card){
+        addTextSpace(`TID.: ${arg.tid}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`MID.: ${arg.mid}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`CARD.: ${arg.card}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`Name.: ${arg.name}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`AID: ${arg.aid}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`STAN: ${arg.stan}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`RRN: ${arg.rrn}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`APPLAB: ${arg.appLab}`,ALIGN_LEFT,fontSize.MIDDLE);
         addTextSpace( '-----------------------------------------------------',ALIGN_LEFT,fontSize.MIDDLE);
     }
     else{

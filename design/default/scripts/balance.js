@@ -41,7 +41,7 @@ ViewModel("balance", {
                 that.notifyPropsChanged();
                 console.log('response ===>', JSON.stringify(data))
             }
-            Tos.GLOBAL_API.callApi(Tos.GLOBAL_API.BALANCE_ENQUIRY,this.balanceEnquiryRequest, onSuccess,onError, 1,this.user.organisation.organisationId)
+            Tos.GLOBAL_API.callApi(Tos.GLOBAL_API.BALANCE_ENQUIRY,this.balanceEnquiryRequest, onSuccess,onError)
         },
 
         onFail: function () {
