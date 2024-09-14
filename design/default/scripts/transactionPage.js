@@ -5,6 +5,8 @@ var getResponse = require("mod_global_response").getResponse;
 ViewModel("transactionPage", {
     data: {
         user:"",
+        loadingDetails:false,
+        isTransactionCard:false,
         loading:false,
         transactions:"",
         isTransactions:false,
@@ -12,10 +14,13 @@ ViewModel("transactionPage", {
         readTransactionRequest:{
             terminalId: "",
             page: 1,
-            pageSize: 100,
+            pageSize: 5,
             searchParam: "",
             startDate: "",
             endDate:"",
+        },
+        readTransactionRequestDetails:{
+            transactionId: ""
         },
         showTip:"",
         loading2:false,
@@ -37,7 +42,8 @@ ViewModel("transactionPage", {
         trnTypeColor:"",
         trnStatus:"",
         approvePag:false,
-        updatePage:""
+        updatePage:"",
+        transactionDetails:{}
     },
 
     methods: {
@@ -96,7 +102,7 @@ ViewModel("transactionPage", {
         },
 
         onPrint:function () {
-            that.trans.responseMessage = this.responseMessage
+            this.trans.responseMessage = this.responseMessage
             timerAdd(function () {
                 PRINT_TICKET('',this.callback,false,this.currPrint,this.trans);
                 return RET_REMOVE;
@@ -125,21 +131,20 @@ ViewModel("transactionPage", {
         },
 
         getTrans(obj){
-            this.trans = obj
+            console.log('transactionDetails ===>', JSON.stringify(obj))
+            this.trans = obj.data
             this.isShowingReceipt=true;
             if(this.trans){
-                this.amount = `₦${this.trans.amount}`;
-                this.responseMessage = `${this.trans.status === 'SUCCESS' || this.trans.status === 'ACTIVE' ? 'APPROVED' :  this.trans.status === 'FAILED' ? 'DECLINED' : this.trans.status}| ${getResponse(this.trans.responseCode).responseMessage}`;
-                console.log("amount ============", this.amount);
+                this.amount = `₦${this.trans.journalAmount}`;
+                this.responseMessage = `${this.trans.transactionStatus === 'SUCCESS' || this.trans.transactionStatus === 'ACTIVE' ? 'APPROVED' :  this.trans.transactionStatus === 'FAILED' ? 'DECLINED' : this.trans.transactionStatus}| ${getResponse(obj.responseCode).responseMessage}`;
                 this.extraData = {
-                    card:this.trans.card,
-                    name:this.trans.name,
-                    appLab:this.trans.appLab,
-                    stan:this.trans.stan,
-                    rrn:this.trans.rrn,
-                    aid:this.trans.aid,
-                    tid:this.trans.tid,
-                    mid:this.trans.mid
+                    card:this.trans.transactionMaskedPan,
+                    name:this.trans.transactionCardHolderName,
+                    appLab:this.trans.transactionAppLabel,
+                    stan:this.trans.transactionStan,
+                    rrn:this.trans.transactionRetrievalReferenceNumber,
+                    aid:this.trans.transactionToAccountIdentification,
+                    tid:this.trans.transactionFromAccountIdentification,
                 }
             }
             this.notifyPropsChanged()
@@ -283,13 +288,13 @@ ViewModel("transactionPage", {
             this.customDate = false;
             this.filterOn = false;
             this.currentPage = 1;
-            const mid =  this.user.organisation.organisationId
             this.notifyPropsChanged();
             this.readTransactionRequest.terminalId = Tos.GLOBAL_CONFIG.userInfo.terminal.terminalId
             const onSuccess = (data) => {
                 this.loading = false;
                 console.log('transaction data', data)
                 this.originalData = data.data;
+                console.log('transaction Length', this.originalData.length)
                 //
                 if (this.originalData.length < 1) {
                     this.isTransactions = false;
@@ -302,10 +307,10 @@ ViewModel("transactionPage", {
                     // })
 
                     // console.log('checking:', JSON.stringify(this.originalData.map(transaction => transaction.trnExtraData)))
-
-                    this.transactions = this.paginate(this.originalData, this.currentPage, this.itemsPerPage);
-                    this.totalPageNum = Math.ceil(this.originalData.length / this.itemsPerPage);
-                    this.totalPage = `page: ${this.currentPage}/${this.totalPageNum}`;
+                    // this.paginate(this.originalData, this.currentPage, this.itemsPerPage);
+                    this.transactions = this.originalData
+                    // this.totalPageNum = Math.ceil(this.originalData.length / this.itemsPerPage);
+                    // this.totalPage = `page: ${this.currentPage}/${this.totalPageNum}`;
                     this.isTransactions = true;
                 }
 
@@ -313,13 +318,44 @@ ViewModel("transactionPage", {
             };
 
             const onError = (error) => {
+                console.log('transaction on Error', JSON.stringify(error))
                 this.loading = false;
                 this.error = error;
                 this.notifyPropsChanged();
             };
 
-            Tos.GLOBAL_API.callApi(Tos.GLOBAL_API.TERMINAL_TRANSACTIONS, this.readTransactionRequest, onSuccess, onError, 1, mid);
+            Tos.GLOBAL_API.callApi(Tos.GLOBAL_API.TERMINAL_TRANSACTIONS, this.readTransactionRequest, onSuccess, onError);
+        },
+
+        readTransactionsDetails(transactionId) {
+            this.loadingDetails = true;
+            this.notifyPropsChanged();
+            console.log('transactionId ===>', JSON.stringify(transactionId))
+            this.readTransactionRequestDetails.transactionId = parseFloat(transactionId.transactionId)
+
+            console.log('transactionId ===>', JSON.stringify(this.readTransactionRequestDetails))
+            const onSuccess = (data) => {
+                this.loadingDetails = false;
+                if(data.data.journalNarration === 'CARD_DEBIT'){
+                    this.isTransactionCard = true
+                }else{
+                    this.isTransactionCard = false
+                }
+                this.notifyPropsChanged();
+                console.log('transaction details', data)
+                // this.transactionDetails =;
+                this.getTrans(data)
+            };
+
+            const onError = (error) => {
+                this.loadingDetails = false;
+                this.error = error;
+                this.notifyPropsChanged();
+            };
+
+            Tos.GLOBAL_API.callApi(Tos.GLOBAL_API.TERMINAL_TRANSACTIONS_DETAILS, this.readTransactionRequestDetails, onSuccess, onError);
         }
+
 
     },
 

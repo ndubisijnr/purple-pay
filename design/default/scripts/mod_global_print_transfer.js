@@ -75,15 +75,14 @@ function PRINT_TICKET(trans,cb,rePrint,currIndex,arg) {
     addTextSpace(`RESPONSE CODE: ${arg.transactionResponseCode === ""?"999":arg.transactionResponseCode}`,ALIGN_LEFT,fontSize.MIDDLE);
     addTextSpace(`MESSAGE: ${arg.transactionResponseCode === "00"?"APPROVED":"DECLINED"} | ${getResponse(arg.transactionResponseCode).responseMessage}`,ALIGN_LEFT,fontSize.MIDDLE);
     addTextSpace(`DATE: ${arg.transactionCreatedAt || arg.transactionCreatedAt}`,ALIGN_LEFT,fontSize.MIDDLE);
-    if(arg.card){
-        addTextSpace(`TID.: ${arg.tid}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`MID.: ${arg.mid}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`CARD.: ${arg.card}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`Name.: ${arg.name}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`AID: ${arg.aid}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`STAN: ${arg.stan}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`RRN: ${arg.rrn}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`APPLAB: ${arg.appLab}`,ALIGN_LEFT,fontSize.MIDDLE);
+    if(arg.journalNarration === 'CARD_DEBIT'){
+        addTextSpace(`TID.: ${arg.transactionFromAccountIdentification}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`CARD.: ${arg.transactionMaskedPan}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`Name.: ${arg.transactionCardHolderName}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`AID: ${arg.transactionToAccountIdentification}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`STAN: ${arg.transactionStan}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`RRN: ${arg.transactionRetrievalReferenceNumber}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`APPLAB: ${arg.transactionAppLabel}`,ALIGN_LEFT,fontSize.MIDDLE);
         addTextSpace( '-----------------------------------------------------',ALIGN_LEFT,fontSize.MIDDLE);
     }
     else{
@@ -91,7 +90,7 @@ function PRINT_TICKET(trans,cb,rePrint,currIndex,arg) {
         addTextSpace(`BUSINESS ACC.: ${arg.transactionFromAccountType}`,ALIGN_LEFT,fontSize.MIDDLE);
         addTextSpace(`NAME: ${arg.transactionToAccountType}`,ALIGN_LEFT,fontSize.MIDDLE);
         addTextSpace(`ACCOUNT NO.: ${arg.transactionToAccountIdentification}`,ALIGN_LEFT,fontSize.MIDDLE);
-        addTextSpace(`REF MSG.: ${arg.narration ? arg.narration : 'NA'}`,ALIGN_LEFT,fontSize.MIDDLE);
+        addTextSpace(`REF MSG.: ${arg.journalNarration ? arg.journalNarration : 'NA'}`,ALIGN_LEFT,fontSize.MIDDLE);
         addTextSpace( '-----------------------------------------------------',ALIGN_LEFT,fontSize.MIDDLE);
         addTextSpace(`REF NO.: ${arg.transactionRetrievalReferenceNumber}`,ALIGN_LEFT,fontSize.MIDDLE);
         addTextSpace( '-----------------------------------------------------',ALIGN_LEFT,fontSize.MIDDLE);

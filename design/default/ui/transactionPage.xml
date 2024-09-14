@@ -1,37 +1,37 @@
 <?xml ruler_x="49"?>
-<window v-model="transactionPage" name="transactionPage" v-on:key_down:NETEVENT="{initHTTPCB}" v-on:key_down:cancel="{onKeyDown, Args=cancel}" v-on:key_down:return="{onKeyDown, Args=return}" floating="false" style="default" style:normal:border="none">
-  <label name="label" x="16" y="10" w="156" h="25" style:normal:font_size="24" style:normal:text_align_h="left" text="Transaction History"/>
+<window v-model="transactionPage" name="transactionPage" v-on:key_down:NETEVENT="{initHTTPCB}" v-on:key_down:cancel="{onKeyDown, Args=cancel}" v-on:key_down:return="{onKeyDown, Args=return}" floating="false" style="default" style:normal:border="none" style:normal:bg_color="#FFFFFF">
+  <label name="label" x="10" y="10" w="164" h="25" style:normal:font_size="24" style:normal:text_align_h="left" text="Transaction History"/>
   <button v-on:click="{toggleFilter}" name="custom" x="229" y="4" w="81" h="36" style:normal:round_radius="10" style:normal:bg_color="#3F3F3F" style:pressed:round_radius="10" style:over:round_radius="10" style:normal:text_color="#FFFFFF" style:normal:border_color="#00000000" style:pressed:font_size="16" text="Filter"/>
   <view v-if="{!isTransactions}" name="no_transaction" x="0" y="60" w="320" h="150" style:normal:bg_image="" style:normal:bg_color="#FFFFFF" disg:hide="true">
     <image name="image2" x="104" y="0" w="100" h="100" draw_type="icon" image="no_transactions"/>
   </view>
   <list_view v-if="{isTransactions}" name="list_view1" x="0" y="50" w="320" h="160" default_item_height="60" style:normal:bg_color="#FFFFFF">
     <scroll_view v-if="{!approvePag}" name="scroll_view" x="0" y="0" w="-10" h="100%">
-      <list_item v-for="{transactions}" name="list_item" h="64" v-on:click="{getTrans,Args=fscript?amount=item.transactionResponseAmount&amp;&amp;date=item.transactionResponseTime&amp;&amp;transactionToAccountType=item.transactionToAccountType&amp;&amp;transactionToAccountIdentification=item.transactionToAccountIdentification&amp;&amp;transactionOrganisationName=item.transactionOrganisationName&amp;&amp;transactionFromAccountIdentification=item.transactionFromAccountIdentification&amp;&amp;bankName=item.trnCrInstitutionName&amp;&amp;transactionRetrievalReferenceNumber=item.transactionRetrievalReferenceNumber&amp;&amp;narration=item.journalNarration&amp;&amp;responseCode=item.transactionResponseCode&amp;&amp;status=item.transactionStatus&amp;&amp;drCr=item.trnDrCr&amp;&amp;type=item.trnDrCr&amp;&amp;name=item.transactionCardHolderName&amp;&amp;card=item.transactionMaskedPan&amp;&amp;rrn=item.transactionRetrievalReferenceNumber&amp;&amp;stan=item.transactionStan&amp;&amp;appLab=item.transactionAppLabel&amp;&amp;mid=item.trnExtraData.mid&amp;&amp;aid=item.transactionAcquiringInstitutionIdentifier&amp;&amp;tid=item.trnExtraData.tid&amp;&amp;trnService=item.trnService&amp;&amp;responseMessage=item.transactionResponseMessage&amp;&amp;responseMessage=item.transactionResponseMessage&amp;}" style:pressed:bg_color="#ACB8C9" style:over:bg_color="#ACB8C9" style:normal:text_align_h="center" style:focused:bg_color="#ACB8C9">
-        <view name="view" h="63" style:normal:bg_color="#FFFFFF" w="320" x="0" y="1">
-          <label v-if="{item.transactionStatus == PENDING}" name="status1" h="20" x="263" y="41" w="39" style:normal:text_color="#FFC000" style:normal:font_size="14" text="PENDING"/>
-          <label v-if="{item.transactionStatus == FAILED}" name="status2" h="20" x="258" y="41" w="49" style:normal:text_color="#C00000" style:normal:font_size="14" text="DECLINED"/>
-          <label v-if="{item.transactionStatus == ACTIVE || item.transactionStatus == SUCCESS}" name="status" h="20" x="258" y="41" w="52" style:normal:text_color="#375622" style:normal:font_size="14" text="APPROVED"/>
-          <label name="credit" h="28" x="258" y="10" w="52" v-data:text="{item.transactionRequestAmount}" style:normal:text_color="#37563D" style:normal:font_size="18" style:normal:text_align_h="right"/>
-          <label name="trans_narration" h="20" x="10" y="34" w="80" style:normal:text_align_h="left" v-data:text="{item.transactionCreatedAt}" style:normal:font_size="12"/>
-          <label name="trans_narration1" h="20" x="10" y="10" w="164" style:normal:text_align_h="left" v-data:text="{item.transactionCardHolderName}" style:normal:font_size="13"/>
+      <list_item v-for="{transactions}" name="list_item" h="52" v-on:click="{readTransactionsDetails,Args=fscript?transactionId=item.id&amp;&amp;amount=item.amount&amp;}" style:pressed:bg_color="#ACB8C9" style:over:bg_color="#ACB8C9" style:normal:text_align_h="center" style:focused:bg_color="#ACB8C9">
+        <view name="view" h="51" style:normal:bg_color="#FFFFFF" w="320" x="0" y="1">
+          <label v-if="{item.drCr == DR}" name="status2" h="20" x="199" y="4" w="49" style:normal:text_color="#C00000" style:normal:font_size="14" text="DR"/>
+          <label v-if="{item.drCr == CR}" name="status" h="20" x="196" y="4" w="52" style:normal:text_color="#375622" style:normal:font_size="14" text="CR"/>
+          <label name="credit" h="28" x="258" y="0" w="52" v-data:text="{item.amount}" style:normal:text_color="#37563D" style:normal:font_size="18" style:normal:text_align_h="right"/>
+          <label name="trans_narration" h="20" x="10" y="24" w="80" style:normal:text_align_h="left" v-data:text="{item.date}" style:normal:font_size="12"/>
+          <label name="trans_narration1" h="20" x="10" y="4" w="164" style:normal:text_align_h="left" v-data:text="{item.name}" style:normal:font_size="13"/>
         </view>
       </list_item>
-      <view name="view3" h="42" style:normal:bg_color="#FFFFFF">
+      <!-- <view name="view3" h="42" style:normal:bg_color="#FFFFFF">
         <view v-if="{totalPageNum > 1}" style:normal:bg_color="#FFFFFF" h="32" name="inner_view3" w="220" x="10">
           <label name="label4" h="32" x="80" y="2" w="59" v-data:text="{totalPage}" style:normal:font_size="16"/>
           <button v-if="{currentPage > 1}" v-on:click="prevPage" name="prev" h="32" x="0" y="2" w="70" style:normal:round_radius="6" style:normal:font_size="18" style:normal:bg_color="#00000000" style:disable:text_color="#A5A5A5" style:pressed:round_radius="6" style:pressed:font_size="16" text="Prev"/>
           <button v-if="{currentPage < totalPageNum}" v-on:click="nextPage" name="next" h="32" style:normal:round_radius="6" style:normal:font_size="18" style:normal:bg_color="#00000000" x="149" y="2" w="70" style:disable:text_color="#A5A5A5" style:pressed:round_radius="6" style:pressed:font_size="16" text="Next"/>
         </view>
         <button name="refresh_btn" v-on:click="{refreshList}" x="240" y="2" w="70" h="32" style:normal:round_radius="6" style:normal:font_size="18" style:pressed:font_size="16" style:pressed:round_radius="6" style:over:font_size="16" style:over:round_radius="6" style:normal:bg_color="#00000000" text="Reload"/>
-      </view>
+      </view> -->
     </scroll_view>
     <scroll_bar_m name="scroll_bar1" x="310" y="0" w="10" h="191" style:normal:round_radius="5" style:normal:border_width="0" style:normal:bg_color="#F4F5F8"/>
   </list_view>
-  <view v-if="loading" name="view1" x="0" y="0" w="320" h="210" style:normal:bg_color="#FFFFFF" disg:hide="true">
+  <view v-if="{loading}" name="view1" x="0" y="0" w="320" h="210" style:normal:bg_color="#FFFFFF">
     <label name="label1" x="77" y="111" w="160" h="28" style:normal:font_size="18" v-data:text="{showTip}"/>
     <image name="image" x="117" y="56" w="81" h="62" draw_type="scale_auto" image="nodata"/>
   </view>
+  <view v-if="{loadingDetails}" name="view100" x="0" y="0" w="320" h="210" style:normal:bg_color="#000000b4" disg:hide="true"/>
   <view v-if="{filterOn}" name="filter_modal" x="0" y="0" w="320" h="210" style:normal:bg_color="#000000A7" floating="true" focusable="true" with_focus_state="true" disg:hide="true">
     <view name="view5" x="0" y="0" w="320" h="210" style:normal:bg_color="#FFFFFF" style:normal:round_radius="0" animation="move(name=slidein_left,delay=2,easing=circular_in,x_from=310,x_to=0,y_from=0,y_to=0)">
       <label name="label3" x="10" y="10" w="151" h="28" style:normal:text_align_h="left" style:normal:font_size="24" text="Filter Transactions:"/>
@@ -133,7 +133,7 @@
   <list_view v-if="{isShowingReceipt}" name="list_view" x="0" y="0" w="320" h="210" default_item_height="60" style:normal:bg_color="#FFFFFF" disg:hide="true">
     <label name="label5" x="10" y="3" w="300" h="28" style:normal:font_size="18" text="Transaction Receipt"/>
     <scroll_view name="scroll_view1" x="0" y="28" w="320" h="172">
-      <view v-if="{trans.transactionMaskedPan}" name="transaction_summary_card" h="372" style:normal:bg_color="#FFFFFF" style:normal:round_radius="5">
+      <view v-if="{isTransactionCard}" name="transaction_summary_card" h="372" style:normal:bg_color="#FFFFFF" style:normal:round_radius="5">
         <view w="320" h="35">
           <label name="tansaction_amount4" x="85" y="0" w="42" h="25" style:normal:font_size="24" style:normal:text_color="#00B050" text="credit"/>
           <label name="tansaction_amount5" x="180" y="1" w="65" h="25" style:normal:font_size="24" v-data:text="{amount}" style:normal:text_color="#00B050"/>
@@ -144,7 +144,7 @@
         </view> -->
         <view name="view11" x="0" y="26" w="320" h="24" style:normal:border_color="#00000000">
           <label name="from7" x="10" y="0" w="81" h="23" style:normal:font_size="14" style:normal:text_align_h="left" text="Date:"/>
-          <label name="fromValue7" x="91" y="1" w="219" h="23" v-data:text="{trans.date}" style:normal:text_align_h="right" style:normal:font_size="14"/>
+          <label name="fromValue7" x="91" y="1" w="219" h="23" v-data:text="{trans.transactionCreatedAt}" style:normal:text_align_h="right" style:normal:font_size="14"/>
         </view>
         <view name="view13" h="24" style:normal:border_color="#00000000" x="0" y="60" w="320">
           <label name="from8" x="10" y="0" w="81" h="23" style:normal:font_size="14" style:normal:text_align_h="left" text="Card:"/>
@@ -177,7 +177,7 @@
           <label name="fromValue13" x="0" y="19" w="320" h="25" v-data:text="{trans.reference}" style:normal:text_align_h="center" style:normal:font_size="14"/>
         </view>
       </view>
-      <view v-if="{trans.transactionToAccountType}" name="transaction_summary" h="357" style:normal:bg_color="#FFFFFF" style:normal:round_radius="5">
+      <view v-if="{!isTransactionCard}" name="transaction_summary" h="357" style:normal:bg_color="#FFFFFF" style:normal:round_radius="5">
         <!-- <view v-if="{trans.drCr == CR}" w="320" h="35">
           <label name="tansaction_amount" x="85" y="0" w="42" h="25" style:normal:font_size="24" style:normal:text_color="#00B050" text="credit"/>
           <label name="tansaction_amount1" x="180" y="1" w="69" h="25" style:normal:font_size="24" v-data:text="{amount}" style:normal:text_color="#00B050"/>
@@ -188,19 +188,19 @@
         </view>
         <view name="view9" x="0" y="26" w="320" h="24" style:normal:border_color="#00000000">
           <label name="from" x="10" y="0" w="81" h="23" style:normal:font_size="14" style:normal:text_align_h="left" text="Date:"/>
-          <label name="fromValue" x="91" y="1" w="219" h="23" v-data:text="{trans.date}" style:normal:text_align_h="right" style:normal:font_size="14"/>
+          <label name="fromValue" x="91" y="1" w="219" h="23" v-data:text="{trans.transactionCreatedAt}" style:normal:text_align_h="right" style:normal:font_size="14"/>
         </view>
         <view name="view8" h="24" style:normal:border_color="#00000000" x="0" y="60" w="320">
           <label name="from1" x="10" y="0" w="81" h="23" style:normal:font_size="14" style:normal:text_align_h="left" text="Business Account:"/>
-          <label name="fromValue1" x="101" y="0" w="209" h="23" v-data:text="{trans.debitAccountNumber}" style:normal:text_align_h="right" style:normal:font_size="14"/>
+          <label name="fromValue1" x="101" y="0" w="209" h="23" v-data:text="{trans.transactionFromAccountIdentification}" style:normal:text_align_h="right" style:normal:font_size="14"/>
         </view>
         <view name="view7" h="24" style:normal:border_color="#00000000" x="0" y="94" w="320">
           <label name="from2" x="10" y="0" w="81" h="23" style:normal:font_size="14" style:normal:text_align_h="left" text="Account Name:"/>
-          <label name="fromValue2" x="81" y="1" w="229" h="23" v-data:text="{trans.creditAccountName}" style:normal:text_align_h="right" style:normal:font_size="14"/>
+          <label name="fromValue2" x="81" y="1" w="229" h="23" v-data:text="{trans.transactionAcquiringInstitutionIdentifier}" style:normal:text_align_h="right" style:normal:font_size="14"/>
         </view>
         <view name="view6" h="24" style:normal:border_color="#00000000" x="0" y="128" w="320">
           <label name="from3" x="10" y="1" w="81" h="23" style:normal:font_size="14" style:normal:text_align_h="left" text="Account Number:"/>
-          <label name="fromValue3" x="65" y="1" w="245" h="23" v-data:text="{trans.creditAccount}" style:normal:text_align_h="right" style:normal:font_size="14"/>
+          <label name="fromValue3" x="65" y="1" w="245" h="23" v-data:text="{trans.transactionAcquiringInstitutionIdentifier}" style:normal:text_align_h="right" style:normal:font_size="14"/>
         </view>
         <view name="view4" h="24" style:normal:border_color="#00000000" x="0" y="196" w="320">
           <label name="from4" x="10" y="0" w="46" h="23" style:normal:font_size="14" style:normal:text_align_h="left" text="Status"/>
@@ -208,19 +208,19 @@
         </view>
         <view name="view10" h="24" style:normal:border_color="#00000000" x="0" y="162" w="320">
           <label name="from5" x="10" y="0" w="82" h="23" style:normal:font_size="14" style:normal:text_align_h="left" text="Bank"/>
-          <label name="fromValue5" x="65" y="1" w="245" h="23" v-data:text="{trans.bankName}" style:normal:text_align_h="right" style:normal:font_size="14"/>
+          <label name="fromValue5" x="65" y="1" w="245" h="23" v-data:text="{trans.transactionToAccountIdentification}" style:normal:text_align_h="right" style:normal:font_size="14"/>
         </view>
         <button v-on:click="{printNext, args=1}" name="button4" x="10" y="284" w="126" h="48" style:normal:round_radius="6" style:normal:bg_color="#7B7B7B" style:normal:text_color="#FFFFFF" style:normal:border_color="#00000000" text="Merchant Copy"/>
         <button v-on:click="{onPrint}" name="button" x="184" y="284" w="126" h="48" style:normal:round_radius="6" style:normal:bg_color="#00000000" style:normal:text_color="#000000" style:normal:border_color="#7B7B7B" text="Customer Copy"/>
         <view name="view12" h="35" style:normal:border_color="#7E7E7E" x="0" y="230" w="320" style:normal:border="top" style:normal:border_width="1">
           <label name="from6" x="10" y="0" w="300" h="19" style:normal:font_size="14" style:normal:text_align_h="center" text="Transaction I.D"/>
-          <label name="fromValue6" x="0" y="10" w="320" h="25" v-data:text="{trans.reference}" style:normal:text_align_h="center" style:normal:font_size="12"/>
+          <label name="fromValue6" x="0" y="10" w="320" h="25" v-data:text="{trans.transactionRetrievalReferenceNumber}" style:normal:text_align_h="center" style:normal:font_size="12"/>
         </view>
       </view>
     </scroll_view>
     <scroll_bar_m name="scroll_bar1" x="310" y="0" w="10" h="191" style:normal:round_radius="5" style:normal:border_width="0" style:normal:bg_color="#F4F5F8"/>
   </list_view>
-  <view v-if="{approvePag}" name="view19" x="0" y="0" w="320" h="210" style:normal:bg_color="#00000064">
+  <view v-if="{approvePag}" name="view19" x="0" y="0" w="320" h="210" style:normal:bg_color="#00000064" disg:hide="true">
     <view name="view20" x="83" y="93" w="227" h="107" style:normal:round_radius="10" style:normal:bg_color="#FFFFFF">
       <view name="view21" x="0" y="0" w="6" h="107" style:normal:round_radius_top_left="10" style:normal:round_radius_bottom_left="10" style:normal:bg_color="#00B050"/>
       <label name="label7" x="16" y="10" w="201" h="28" style:normal:text_align_h="left" v-data:text="{updatePage}"/>

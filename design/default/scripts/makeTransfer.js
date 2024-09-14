@@ -146,7 +146,7 @@ ViewModel("makeTransfer", {
             if(that.transferTypeValue === "Transfer to CoreBank"){
                 that.nameEnquiryRequest.accountBankCode = "000000"
                 that.fundTransferRequest.bankName = "CoreBank"
-                that.fundTransferRequest.bankCode = "000000"
+                that.fundTransferRequest.bankCode = "090356"
             }
 
             that.notifyPropsChanged();

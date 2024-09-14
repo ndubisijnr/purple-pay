@@ -88,12 +88,12 @@ ViewModel("transferLoading",{
                     type: "success",
                     close_current: true,
                     data:data,
-                    code: data.responseCode?data.responseCode:data.isoResponseCode,
+                    code: data.transactionResponseCode,
                 });
             }
             function onError(data){
                 that.loading = false
-                that.error = data.responseMessage
+                that.error = data.transactionResponseMessage
                 that.isError = true
                 that.notifyPropsChanged();
             }

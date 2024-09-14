@@ -14,6 +14,7 @@ function GLOBAL_API() {
     this.TRANSACTION_HISTORY = `${this.BASE_URL2}/transaction/read-by-terminal-id`;
     // this.TERMINAL_TRANSACTIONS = `${this.BASE_URL2}/terminal-transaction/read-by-terminal-transaction-organisation-id/{organisationId}`
     this.TERMINAL_TRANSACTIONS = `${this.BASE_URL2}/terminal-transaction/read-by-terminal-id-post`
+    this.TERMINAL_TRANSACTIONS_DETAILS = `${this.BASE_URL2}/terminal-transaction/read-by-transaction-id-post`
 
     // this.TMS_PURCHASE = `${this.BASE_URL2}/tms/purchase`;
     this.TMS_PURCHASE = `${this.BASE_URL2}/payment/card`;
@@ -73,37 +74,52 @@ function GLOBAL_API() {
     }
 
     this.parseData = function (data,onSuccess,onError) {
-        try{
+        // let SeparSize = 4096;
+        let SeparSize = 1<<12;
+        try {
             let u8arr = new Uint8Array(data);
-            let decodeStr = String.fromCharCode.apply(null, u8arr);
+            console.log('u8arr', u8arr)
+
+            let len = Math.ceil(u8arr.length / SeparSize) || 1;
+            console.log('len:====>', len);
+            let decodeStr = "";
+            let idx = 0;
+            while (len) {
+                let arr = [];
+                if (len === 1) {
+                    arr = u8arr;
+                } else {
+                    arr = u8arr.slice(idx * SeparSize, SeparSize);
+                }
+                --len;
+                ++idx;
+                let str = String.fromCharCode.apply(null, arr);
+                decodeStr += str;
+                console.log('decodeStr AAAAAA:====>', JSON.stringify(str));
+            }
             if (decodeStr) {
                 let parsedData = JSON.parse(decodeStr);
-                console.log('RESPONSE RT:====>', JSON.stringify(parsedData))
-                
-                if(parsedData.responseCode === "00" || parsedData.transactionResponseCode  === "00"){
-                    // console.log('returned responseCode =========>', parsedData.responseCode?parsedDatadData.responseCode:parsedData.isoResponseCode)
-                    onSuccess(parsedData)
-                }
-                else if (data.responseCode === "115"){
-                    Tos.GLOBAL_CONFIG.userInfo = {}
+                console.log('RESPONSE RT:====>', JSON.stringify(parsedData));
+                if (parsedData.responseCode === "00" || parsedData.transactionResponseCode === "00") {
+                    console.log('returned responseCode =========>', parsedData.responseCode ? parsedData.responseCode : parsedData.isoResponseCode);
+                    onSuccess(parsedData);
+                } else if (parsedData.responseCode === "115") {
+                    Tos.GLOBAL_CONFIG.userInfo = {};
                     navigateTo({
                         target: "login",
                         close_current: true,
                     });
+                } else {
+                    onError(parsedData);
+                    console.log('parsedData', JSON.stringify(parsedData));
                 }
-                else {
-                    onError(parsedData)
-                    console.log('parsedData', JSON.stringify(parsedData))
-                }
-                
-                
             }
             else {
-                onError('something went wrong. u8arr')
+                onError('Err decodeStr', decodeStr);
             }
-        }catch(err){
-            console.log('catch in parsed', err)
-            onError(err)
+        } catch (error) {
+            onError('Error parsing response data: ' + error);
+            console.error('Error parsing response data:', error);
         }
     }
 

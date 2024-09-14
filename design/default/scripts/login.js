@@ -206,7 +206,7 @@ ViewModel("login", {
                 console.log('callback =========>>>>>',JSON.stringify(data))
                 saveUserInfo(data)
                 that.loading = false
-                that.readBankList()
+                // that.readBankList()
                 navigateTo({
                     target: "pay",
                     close_current: true,

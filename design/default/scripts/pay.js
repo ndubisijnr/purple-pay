@@ -61,7 +61,7 @@ ViewModel("pay", {
     showMore: function(){
       this.isMoreApp = true;
     },
-
+    
     showExit: function () {
         this.isShowExit =true;
         this.notifyPropsChanged();
