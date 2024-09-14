@@ -218,7 +218,7 @@ function GLOBAL_PREENTRY(){
                 appName: "Card Balance",
                 icon: "paywithcard",
                 transParam:{appName:"Card Balance"},
-                entry: ["cardBalance"]
+                entry: ["searchCard",[["emvProcess","result"],["emvProcess","result"],["emvProcess","result"]]]
             },
 
         ];
@@ -248,9 +248,6 @@ function  GLOBAL_JUMP (index,args){
         data:args
     });
 }
-
-
-
 
 exports.GLOBAL_TRANSACTION = GLOBAL_TRANSACTION;
 exports.GLOBAL_PREENTRY = GLOBAL_PREENTRY;

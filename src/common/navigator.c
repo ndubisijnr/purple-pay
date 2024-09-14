@@ -1,5 +1,7 @@
 ﻿#include "awtk.h"
 #include "navigator.h"
+extern ret_t balance_init(widget_t* win, void* ctx);
+extern ret_t cardBalance_init(widget_t* win, void* ctx);
 extern ret_t login_init(widget_t* win, void* ctx);
 extern ret_t searchCard_init(widget_t* win, void* ctx);
 extern ret_t result_init(widget_t* win, void* ctx);
@@ -11,7 +13,6 @@ extern ret_t emvProcess_init(widget_t* win, void* ctx);
 extern ret_t emvProcessArchive_init(widget_t* win, void* ctx);
 extern ret_t profile_init(widget_t* win, void* ctx);
 extern ret_t error_init(widget_t* win, void* ctx);
-extern ret_t balance_init(widget_t* win, void* ctx);
 extern ret_t inputAmt_init(widget_t* win, void* ctx);
 extern ret_t app_store_init(widget_t* win, void* ctx);
 extern ret_t makeTransfer_init(widget_t* win, void* ctx);
@@ -28,7 +29,11 @@ extern ret_t sample_ui_init(widget_t* win, void* ctx);
 extern ret_t home_page_init(widget_t* win, void* ctx);
 
 static ret_t navigator_window_init(const char* name, widget_t* win, void* ctx) {
-    if (tk_str_eq(name, "login")) {
+    if (tk_str_eq(name, "balance")) {
+      return balance_init(win, ctx);
+    } else if (tk_str_eq(name, "cardBalance")) {
+      return cardBalance_init(win, ctx);
+    } else if (tk_str_eq(name, "login")) {
       return login_init(win, ctx);
     } else if (tk_str_eq(name, "searchCard")) {
       return searchCard_init(win, ctx);
@@ -50,8 +55,6 @@ static ret_t navigator_window_init(const char* name, widget_t* win, void* ctx) {
       return profile_init(win, ctx);
     } else if (tk_str_eq(name, "error")) {
       return error_init(win, ctx);
-    } else if (tk_str_eq(name, "balance")) {
-      return balance_init(win, ctx);
     } else if (tk_str_eq(name, "inputAmt")) {
       return inputAmt_init(win, ctx);
     } else if (tk_str_eq(name, "app_store")) {
