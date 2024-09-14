@@ -7,7 +7,8 @@ ViewModel("cardBalance", {
         loading:false,
         showTip:"Fetching account balance",
         balanceEnquiryRequest:{terminalId:""},
-        balance:"0.00"
+        avlBalance:"0.00",
+        ledgerBalance:"0.00"
     },
 
     methods:{
@@ -16,32 +17,6 @@ ViewModel("cardBalance", {
             const parts  = amountFloat.toString().split(".");
             parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             return  parts.join(".")
-        },
-
-
-        initHTTPCB: function () {
-            Tos.HttpclientCbEvent();
-        },
-
-        readBalance: function(){
-            const that = this
-            console.log('reading balance ===> ')
-            this.balanceEnquiryRequest.terminalId = Tos.GLOBAL_CONFIG.userInfo.terminal.terminalId;
-            that.loading = true
-            that.notifyPropsChanged();
-            function onSuccess(data){
-                console.log('balance response =====> ',JSON.stringify(data))
-                that.loading = false
-                that.balance = data.data.terminalBalance
-                that.notifyPropsChanged();
-            }
-            function onError(data){
-                that.loading = false
-                that.error = data
-                that.notifyPropsChanged();
-                console.log('response ===>', JSON.stringify(data))
-            }
-            Tos.GLOBAL_API.callApi(Tos.GLOBAL_API.BALANCE_ENQUIRY,this.balanceEnquiryRequest, onSuccess,onError)
         },
 
         onFail: function () {
@@ -59,6 +34,12 @@ ViewModel("cardBalance", {
         hideModel: function () {
             this.showModel = false;
             this.notifyPropsChanged();
+        },
+
+        displayBalance: function (data) {
+            this.avlBalance = `${data.availableBalanceCurrency}${this._formatInput(data.availableBalance)}`
+            this.ledgerBalance = `${data.ledgerBalanceCurrency}${this._formatInput(data.ledgerBalance)}`
+            that.notifyPropsChanged();
         },
 
         handleCancel: function () {
@@ -103,7 +84,7 @@ ViewModel("cardBalance", {
 
     onWillMount: function (req) {
         this.user = Tos.GLOBAL_CONFIG.userInfo
-        this.readBalance()
+        this.displayBalance(req.response)
     },
 
     onMount: function () {

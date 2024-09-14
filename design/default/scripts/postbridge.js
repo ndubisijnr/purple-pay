@@ -20,13 +20,23 @@ ViewModel("postbridge", {
         onSuccess: function (data) {
             this.loading = false
             this.notifyPropsChanged();
-            navigateTo({
-                target: "result",
-                type:  "success",
-                rrn: this.rrn,
-                response: data,
-                close_current: true,
-            });
+            if (this.trans.amount === 0) {
+                navigateTo({
+                    target: "balance",
+                    type: "success",
+                    rrn: this.rrn,
+                    response: data,
+                    close_current: true,
+                });
+            }else{
+                navigateTo({
+                    target: "result",
+                    type: "success",
+                    rrn: this.rrn,
+                    response: data,
+                    close_current: true,
+                });
+            }
         },
         onError: function (data) {
             this.loading = false
@@ -77,7 +87,12 @@ ViewModel("postbridge", {
             }
             this.rrn = request.rrn
             that.notifyPropsChanged();
-            Tos.GLOBAL_API.callApi(Tos.GLOBAL_API.TMS_PURCHASE,request,this.onSuccess,this.onError)
+            if (request.amt === 0){
+                Tos.GLOBAL_API.callApi(Tos.GLOBAL_API.TMS_CARD_BALANCE,request,this.onSuccess,this.onError)
+            }else{
+                Tos.GLOBAL_API.callApi(Tos.GLOBAL_API.TMS_PURCHASE,request,this.onSuccess,this.onError)
+            }
+
         },
         onFail: function () {
             if (this.showModel) {

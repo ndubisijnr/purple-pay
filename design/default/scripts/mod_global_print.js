@@ -12,6 +12,13 @@ const GET_SHOW_AMOUNT = require("mod_global_funcs").GET_SHOW_AMOUNT;
 
 function PRINT_TICKET(trans,cb,rePrint,currIndex) {
 
+    function _formatInput(amount) {
+        let amountFloat = parseFloat(amount).toFixed(2);
+        const parts  = amountFloat.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        return  parts.join(".")
+    }
+
     let  status  = Tos.PrnStatus();
     if(status.code===ERR_PRN_PAPER_LACK){
         Tos.SysBeep();
@@ -81,7 +88,7 @@ function PRINT_TICKET(trans,cb,rePrint,currIndex) {
     console.log("print transactionMaskedPan ======>>>>>");
     addText(`AMOUNT:`,ALIGN_LEFT,fontSize.MIDDLE);
     console.log("print transactionRequestAmount ======>>>>>");
-    addTextSpace(`₦${trans.transactionRequestAmount}`,ALIGN_RIGHT,fontSize.LARGE);
+    addTextSpace(`₦${_formatInput(trans.transactionRequestAmount)}`,ALIGN_RIGHT,fontSize.LARGE);
     // addTextSpace(`AID: ${trans.aid}`,ALIGN_LEFT,fontSize.MIDDLE);
     console.log("print transactionRetrievalReferenceNumber ======>>>>>");
     addTextSpace(`STAN: ${trans.transactionRetrievalReferenceNumber.substring(0,6)}`,ALIGN_LEFT,fontSize.MIDDLE);

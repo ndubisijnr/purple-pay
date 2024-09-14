@@ -18,6 +18,7 @@ function GLOBAL_API() {
 
     // this.TMS_PURCHASE = `${this.BASE_URL2}/tms/purchase`;
     this.TMS_PURCHASE = `${this.BASE_URL2}/payment/card`;
+    this.TMS_CARD_BALANCE = `${this.BASE_URL2}/payment/card-balance`;
 
     this.callApi = function (url,request,onSuccess, onError) {
         this.globalChooseNetworks();

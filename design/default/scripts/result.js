@@ -172,7 +172,7 @@ ViewModel("result", {
         GLOBAL_FUNCS.setLEDStatus(0b0100, 0);
         console.log('error code:', req.code)
         let response = getResponse(req.code?req.code:"")
-        this.btnText = response.responseMessage?response.responseMessage:"Failure (10s)";
+        this.btnText = response.responseMessage?response.responseMessage:response.transactionResponseMessage?response.transactionResponseMessage:"Failure (10s)";
       }
       else {
         this.resultCode = req.type === "cancel" ? 2 : 3;
