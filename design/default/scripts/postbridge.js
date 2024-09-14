@@ -43,7 +43,7 @@ ViewModel("postbridge", {
             this.notifyPropsChanged();
             navigateReplace({
                 target: "result",
-                type: "error",
+                type: this.trans.amount === 0 ? "cancel" : "error",
                 rrn: this.rrn,
                 response: data,
                 close_current: true
