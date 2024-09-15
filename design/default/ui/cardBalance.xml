@@ -1,4 +1,4 @@
-<window v-model="balance" name="cardBalance" v-on:key_down:NETEVENT="{initHTTPCB}" v-on:key_down:cancel="{onKeyDown, Args=cancel}" v-on:key_down:return="onKeyDown, Args=return">
+<window v-model="cardBalance" name="cardBalance" v-on:key_down:NETEVENT="{initHTTPCB}" v-on:key_down:cancel="{onKeyDown, Args=cancel}" v-on:key_down:return="onKeyDown, Args=return">
   <view name="view4" x="0" y="0" w="320" h="210">
     <scroll_view name="scroll_view" x="0" y="0" w="320" h="210">
       <view w="320" h="33">
