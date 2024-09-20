@@ -8,7 +8,7 @@ ViewModel("makeTransfer", {
         searchQy:"",
         theme:null,
         transferType:false,
-        transferTypeValue:"Transfer to CoreBank",
+        transferTypeValue:"Transfer to PurplePay",
         accountNumberStr:"",
         amount_and_narration:false,
         transactionSummary:false,
@@ -143,7 +143,7 @@ ViewModel("makeTransfer", {
             let that = this;
             that.nameEnquiryLoading = true
             that.showTip = 'Loading Account Details'
-            if(that.transferTypeValue === "Transfer to CoreBank"){
+            if(that.transferTypeValue === "Transfer to PurplePay"){
                 that.nameEnquiryRequest.accountBankCode = "000000"
                 that.fundTransferRequest.bankName = "CoreBank"
                 that.fundTransferRequest.bankCode = "090356"

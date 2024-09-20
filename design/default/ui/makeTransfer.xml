@@ -39,7 +39,7 @@
         <![CDATA[ Other Banks]]>
       </property>
     </button>
-    <button v-on:click="{handleClick, Args=Transfer to CoreBank}" name="button1" x="44" y="50" w="232" h="45" style:normal:icon_at="auto" style:normal:bg_color="#FFFFFF" style:normal:round_radius="10" style:normal:border_color="#596B6D" floating="false" style:normal:text_color="#000000" style:normal:font_size="24" style:normal:text_align_h="left" style:normal:margin="20" style:pressed:icon_at="auto" style:pressed:icon="" style:pressed:margin="20" style:pressed:font_size="18" style:pressed:round_radius="10" style:pressed:border_color="#ebebeb00" style:pressed:text_color="#FFFFFF" style:pressed:bg_color="#F4B284" style:over:border_color="#F4B284">
+    <button v-on:click="{handleClick, Args=Transfer to PurplePay}" name="button1" x="44" y="50" w="232" h="45" style:normal:icon_at="auto" style:normal:bg_color="#FFFFFF" style:normal:round_radius="10" style:normal:border_color="#596B6D" floating="false" style:normal:text_color="#000000" style:normal:font_size="24" style:normal:text_align_h="left" style:normal:margin="20" style:pressed:icon_at="auto" style:pressed:icon="" style:pressed:margin="20" style:pressed:font_size="18" style:pressed:round_radius="10" style:pressed:border_color="#ebebeb00" style:pressed:text_color="#FFFFFF" style:pressed:bg_color="#F4B284" style:over:border_color="#F4B284">
       <property name="style:over:round_radius">
         <![CDATA[4]]>
       </property>
@@ -68,7 +68,7 @@
         <![CDATA[left]]>
       </property>
       <property name="text">
-        <![CDATA[ CoreBank]]>
+        <![CDATA[ Purple Pay]]>
       </property>
     </button>
   </view>

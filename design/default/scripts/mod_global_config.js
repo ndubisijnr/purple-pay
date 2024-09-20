@@ -9,7 +9,7 @@ function GLOBAL_CONFIG() {
         merchantName:"Topwise",
         tpdu: "6000380000",
         head: "603200322012",
-        partner: "CORESTEP",
+        partner: "PurplePay",
         timeout:60,
         resendTime:3,
         voucherNo:1,
@@ -25,8 +25,8 @@ function GLOBAL_CONFIG() {
         reverselType:0 ,//0:reversel  next time ,1: at once
         countryCode:"156",
         theme:{
-            primary:'#d2d2d3b9',
-            primary_bold:'#3F3F3F',
+            primary:'#7750A1',
+            primary_bold:'#FA9445',
             secondary:'#FF9900FF',
             light:'#FFFFFF',
             dark:'#000000'
